@@ -1,0 +1,248 @@
+@import url(&quot;https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&amp;display=swap&quot;);
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: '&quot;Inconsolata&quot;, monospace';
+  font-size: 14px;
+  color: white;
+  user-select: none;
+  -webkit-user-select: none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  block-size: 100%;
+  overflow: hidden;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  color: white;
+  background: transparent;
+  font-family: '&quot;Inconsolata&quot;, monospace';
+  padding: 10px;
+  font-size: 1em;
+}
+
+button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+#info-left,
+#info-right {
+  position: absolute;
+  inset-block-start: 20px;
+}
+
+#info-left {
+  inset-inline-start: 25px;
+}
+
+#info-right {
+  inset-inline-end: 25px;
+  text-align: end;
+}
+
+#bomb-grab-area {
+  position: absolute;
+  inline-size: 30px;
+  block-size: 30px;
+  border-radius: 50%;
+  background-color: transparent;
+  cursor: grab;
+}
+
+#instructions,
+#congratulations {
+  position: absolute;
+  transition: visibility 0s, opacity 0.5s linear;
+}
+
+@media (min-block-size: 535px) {
+  #instructions {
+    min-block-size: 200px;
+  }
+}
+
+#congratulations {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: black;
+  padding: 50px 80px;
+  opacity: 0;
+  visibility: hidden;
+  max-inline-size: 300px;
+  backdrop-filter: blur(5px);
+}
+
+#congratulations p a {
+  color: inherit;
+}
+
+#congratulations button {
+  border: 1px solid rgba(0, 0, 0, 0.9);
+  color: inherit;
+}
+
+#settings {
+  position: absolute;
+  inset-block-start: calc(20px + 16.385px - 10px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  inset-inline-end: 11em;
+}
+
+#settings,
+#info-left,
+#info-right {
+  opacity: 0;
+  transition: opacity 3s;
+}
+
+@media (max-inline-size: 450px) {
+  #settings,
+  #info-left,
+  #info-right {
+    opacity: 0;
+  }
+  #instructions {
+    visibility: hidden;
+  }
+}
+
+/* Basic CSS for the dropdown */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn:after {
+  content: '&quot;▼&quot;';
+  margin-inline-start: 7px;
+  font-size: 0.8em;
+  vertical-align: text-top;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-inline-size: 120px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  white-space: nowrap;
+  font-size: 0.9em;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+/* Show dropdown content when hovering over the button */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+#windmill {
+  position: absolute;
+  inset-inline-end: 0;
+  fill: rgba(255, 255, 255, 0.5);
+  transform-origin: bottom;
+}
+
+#windmill-head {
+  animation-name: rotate;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#wind-info {
+  position: absolute;
+  inline-size: 100px;
+  text-align: center;
+  margin-block-end: 30px;
+}
+
+/** Youtube logo by https://codepen.io/alvaromontoro */
+#youtube {
+  z-index: 2;
+  display: block;
+  inline-size: 30px;
+  block-size: 21px;
+  background: red;
+  position: relative;
+  border-radius: 50% / 11%;
+  transition: transform 0.5s;
+  color: black;
+}
+
+#youtube:hover,
+#youtube:focus {
+  transform: scale(1.2);
+}
+
+#youtube::before {
+  content: '&quot';
+  display: block;
+  position: absolute;
+  inset-block-start: 7.5%;
+  inset-inline-start: -6%;
+  inline-size: 112%;
+  block-size: 85%;
+  background: red;
+  border-radius: 9% / 50%;
+}
+
+#youtube::after {
+  content: '&quot&quot';
+  display: block;
+  position: absolute;
+  inset-block-start: 6px;
+  inset-inline-start: 11px;
+  inline-size: 15px;
+  block-size: 10px;
+  border: 5px solid transparent;
+  box-sizing: border-box;
+  border-inline-start: 10px solid white;
+}
+
+#youtube span {
+  font-size: 0;
+  position: absolute;
+  inline-size: 0;
+  block-size: 0;
+  overflow: hidden;
+}
+
+#youtube-card {
+  display: none;
+}
+
+#youtube:hover + #youtube-card {
+  color: black;
+  display: block;
+  position: absolute;
+  inset-block-start: -20px;
+  inset-inline-end: -20px;
+  padding: 25px 60px 25px 25px;
+  inline-size: 200px;
+  background-color: white;
+}

@@ -1,4 +1,4 @@
-{/* // The state of the game */}
+// The state of the game
 let state = {};
 
 let isDragging = false;
@@ -12,65 +12,65 @@ let delayTimeoutID = undefined;
 let simulationMode = false;
 let simulationImpact = {};
 
-{/* // Settings */
+// Settings
 const settings = {
   numberOfPlayers: 1, // 0 means two computers are playing against each other
-  mode: &quot;light&quot; };
-
+  mode: "light",
+};
 
 const blastHoleRadius = 18;
 
 // The main canvas element and its drawing context
-const canvas = document.getElementById(&quot;game&quot;);
+const canvas = document.getElementById("game");
 canvas.width = window.innerWidth * window.devicePixelRatio;
 canvas.height = window.innerHeight * window.devicePixelRatio;
-canvas.style.width = window.innerWidth + &quot;px&quot;;
-canvas.style.height = window.innerHeight + &quot;px&quot;;
-const ctx = canvas.getContext(&quot;2d&quot;);
+canvas.style.width = window.innerWidth + "px";
+canvas.style.height = window.innerHeight + "px";
+const ctx = canvas.getContext("2d");
 
 // Windmill
-const windmillDOM = document.getElementById(&quot;windmill&quot;);
-const windmillHeadDOM = document.getElementById(&quot;windmill-head&quot;);
-const windInfoDOM = document.getElementById(&quot;wind-info&quot;);
-const windSpeedDOM = document.getElementById(&quot;wind-speed&quot;);
+const windmillDOM = document.getElementById("windmill");
+const windmillHeadDOM = document.getElementById("windmill-head");
+const windInfoDOM = document.getElementById("wind-info");
+const windSpeedDOM = document.getElementById("wind-speed");
 
 // Left info panel
-const info1DOM = document.getElementById(&quot;info-left&quot;);
-const name1DOM = document.querySelector(&quot;#info-left .name&quot;);
-const angle1DOM = document.querySelector(&quot;#info-left .angle&quot;);
-const velocity1DOM = document.querySelector(&quot;#info-left .velocity&quot;);
+const info1DOM = document.getElementById("info-left");
+const name1DOM = document.querySelector("#info-left .name");
+const angle1DOM = document.querySelector("#info-left .angle");
+const velocity1DOM = document.querySelector("#info-left .velocity");
 
 // Right info panel
-const info2DOM = document.getElementById(&quot;info-right&quot;);
-const name2DOM = document.querySelector(&quot;#info-right .name&quot;);
-const angle2DOM = document.querySelector(&quot;#info-right .angle&quot;);
-const velocity2DOM = document.querySelector(&quot;#info-right .velocity&quot;);
+const info2DOM = document.getElementById("info-right");
+const name2DOM = document.querySelector("#info-right .name");
+const angle2DOM = document.querySelector("#info-right .angle");
+const velocity2DOM = document.querySelector("#info-right .velocity");
 
 // Instructions panel
-const instructionsDOM = document.getElementById(&quot;instructions&quot;);
-const gameModeDOM = document.getElementById(&quot;game-mode&quot;);
+const instructionsDOM = document.getElementById("instructions");
+const gameModeDOM = document.getElementById("game-mode");
 
 // The bomb's grab area
-const bombGrabAreaDOM = document.getElementById(&quot;bomb-grab-area&quot;);
+const bombGrabAreaDOM = document.getElementById("bomb-grab-area");
 
 // Congratulations panel
-const congratulationsDOM = document.getElementById(&quot;congratulations&quot;);
-const winnerDOM = document.getElementById(&quot;winner&quot;);
+const congratulationsDOM = document.getElementById("congratulations");
+const winnerDOM = document.getElementById("winner");
 
 // Settings toolbar
-const settingsDOM = document.getElementById(&quot;settings&quot;);
-const singlePlayerButtonDOM = document.querySelectorAll(&quot;.single-player&quot;);
-const twoPlayersButtonDOM = document.querySelectorAll(&quot;.two-players&quot;);
-const autoPlayButtonDOM = document.querySelectorAll(&quot;.auto-play&quot;);
-const colorModeButtonDOM = document.getElementById(&quot;color-mode&quot;);
+const settingsDOM = document.getElementById("settings");
+const singlePlayerButtonDOM = document.querySelectorAll(".single-player");
+const twoPlayersButtonDOM = document.querySelectorAll(".two-players");
+const autoPlayButtonDOM = document.querySelectorAll(".auto-play");
+const colorModeButtonDOM = document.getElementById("color-mode");
 
-colorModeButtonDOM.addEventListener(&quot;click&quot;, () => {
-  if (settings.mode === &quot;dark&quot;) {
-    settings.mode = &quot;light&quot;;
-    colorModeButtonDOM.innerText = &quot;Dark Mode&quot;;
+colorModeButtonDOM.addEventListener("click", () => {
+  if (settings.mode === "dark") {
+    settings.mode = "light";
+    colorModeButtonDOM.innerText = "Dark Mode";
   } else {
-    settings.mode = &quot;dark&quot;;
-    colorModeButtonDOM.innerText = &quot;Light Mode&quot;;
+    settings.mode = "dark";
+    colorModeButtonDOM.innerText = "Light Mode";
   }
   draw();
 });
@@ -80,7 +80,7 @@ newGame();
 function newGame() {
   // Reset game state
   state = {
-    phase: &quot;aiming&quot;, // aiming | in flight | celebrating
+    phase: "aiming", // aiming | in flight | celebrating
     currentPlayer: 1,
     round: 1,
     windSpeed: generateWindSpeed(),
@@ -89,8 +89,8 @@ function newGame() {
       y: undefined,
       rotation: 0,
       velocity: { x: 0, y: 0 },
-      highlight: true },
-
+      highlight: true,
+    },
 
     // Buildings
     backgroundBuildings: [],
@@ -100,11 +100,11 @@ function newGame() {
     stars: [],
 
     scale: 1,
-    shift: 0 };
-
+    shift: 0,
+  };
 
   // Generate stars
-  for (let i = 0; i < window.innerWidth * window.innerHeight / 12000; i++) {
+  for (let i = 0; i < (window.innerWidth * window.innerHeight) / 12000; i++) {
     const x = Math.floor(Math.random() * window.innerWidth);
     const y = Math.floor(Math.random() * window.innerHeight);
     state.stars.push({ x, y });
@@ -155,31 +155,31 @@ function newGame() {
 function showInstructions() {
   singlePlayerButtonDOM.checked = true;
   instructionsDOM.style.opacity = 1;
-  instructionsDOM.style.visibility = &quot;visible&quot;;
+  instructionsDOM.style.visibility = "visible";
 }
 
 function hideInstructions() {
   state.bomb.highlight = false;
   instructionsDOM.style.opacity = 0;
-  instructionsDOM.style.visibility = &quot;hidden&quot;;
+  instructionsDOM.style.visibility = "hidden";
 }
 
 function showCongratulations() {
   congratulationsDOM.style.opacity = 1;
-  congratulationsDOM.style.visibility = &quot;visible&quot;;
+  congratulationsDOM.style.visibility = "visible";
 }
 
 function hideCongratulations() {
   congratulationsDOM.style.opacity = 0;
-  congratulationsDOM.style.visibility = &quot;hidden&quot;;
+  congratulationsDOM.style.visibility = "hidden";
 }
 
 function generateBackgroundBuilding(index) {
   const previousBuilding = state.backgroundBuildings[index - 1];
 
-  const x = previousBuilding ?
-  previousBuilding.x + previousBuilding.width + 4 :
-  -300;
+  const x = previousBuilding
+    ? previousBuilding.x + previousBuilding.width + 4
+    : -300;
 
   const minWidth = 60;
   const maxWidth = 110;
@@ -191,9 +191,9 @@ function generateBackgroundBuilding(index) {
   const maxHeight = 350;
   const smallMinHeight = 20;
   const smallMaxHeight = 150;
-  const height = smallerBuilding ?
-  smallMinHeight + Math.random() * (smallMaxHeight - smallMinHeight) :
-  minHeight + Math.random() * (maxHeight - minHeight);
+  const height = smallerBuilding
+    ? smallMinHeight + Math.random() * (smallMaxHeight - smallMinHeight)
+    : minHeight + Math.random() * (maxHeight - minHeight);
 
   state.backgroundBuildings.push({ x, width, height });
 }
@@ -201,9 +201,9 @@ function generateBackgroundBuilding(index) {
 function generateBuilding(index) {
   const previousBuilding = state.buildings[index - 1];
 
-  const x = previousBuilding ?
-  previousBuilding.x + previousBuilding.width + 4 :
-  0;
+  const x = previousBuilding
+    ? previousBuilding.x + previousBuilding.width + 4
+    : 0;
 
   const minWidth = 80;
   const maxWidth = 130;
@@ -216,9 +216,9 @@ function generateBuilding(index) {
   const minHeightGorilla = 30;
   const maxHeightGorilla = 150;
 
-  const height = smallerBuilding ?
-  minHeightGorilla + Math.random() * (maxHeightGorilla - minHeightGorilla) :
-  minHeight + Math.random() * (maxHeight - minHeight);
+  const height = smallerBuilding
+    ? minHeightGorilla + Math.random() * (maxHeightGorilla - minHeightGorilla)
+    : minHeight + Math.random() * (maxHeight - minHeight);
 
   // Generate an array of booleans to show if the light is on or off in a room
   const lightsOn = [];
@@ -241,16 +241,16 @@ function calculateScaleAndShift() {
 
   const sceneNeedsToBeShifted = horizontalScale > verticalScale;
 
-  state.shift = sceneNeedsToBeShifted ?
-  (window.innerWidth - totalWidthOfTheCity * state.scale) / 2 :
-  0;
+  state.shift = sceneNeedsToBeShifted
+    ? (window.innerWidth - totalWidthOfTheCity * state.scale) / 2
+    : 0;
 }
 
-window.addEventListener(&quot;resize&quot;, () => {
+window.addEventListener("resize", () => {
   canvas.width = window.innerWidth * window.devicePixelRatio;
   canvas.height = window.innerHeight * window.devicePixelRatio;
-  canvas.style.width = window.innerWidth + &quot;px&quot;;
-  canvas.style.height = window.innerHeight + &quot;px&quot;;
+  canvas.style.width = window.innerWidth + "px";
+  canvas.style.height = window.innerHeight + "px";
   calculateScaleAndShift();
   initializeBombPosition();
   initializeWindmillPosition();
@@ -259,9 +259,9 @@ window.addEventListener(&quot;resize&quot;, () => {
 
 function initializeBombPosition() {
   const building =
-  state.currentPlayer === 1 ?
-  state.buildings.at(1) // Second building
-  : state.buildings.at(-2); // Second last building
+    state.currentPlayer === 1
+      ? state.buildings.at(1) // Second building
+      : state.buildings.at(-2); // Second last building
 
   const gorillaX = building.x + building.width / 2;
   const gorillaY = building.height;
@@ -289,7 +289,7 @@ function initializeWindmillPosition() {
   const lastBuilding = state.buildings.at(-1);
   let rooftopY = lastBuilding.height * state.scale;
   let rooftopX =
-  (lastBuilding.x + lastBuilding.width / 2) * state.scale + state.shift;
+    (lastBuilding.x + lastBuilding.width / 2) * state.scale + state.shift;
 
   windmillDOM.style.bottom = `${rooftopY}px`;
   windmillDOM.style.left = `${rooftopX - 100}px`;
@@ -329,12 +329,12 @@ function draw() {
 
 function drawBackgroundSky() {
   const gradient = ctx.createLinearGradient(0, 0, 0, window.innerHeight);
-  if (settings.mode === &quot;dark&quot;) {
-    gradient.addColorStop(1, &quot;#27507F&quot;);
-    gradient.addColorStop(0, &quot;#58A8D8&quot;);
+  if (settings.mode === "dark") {
+    gradient.addColorStop(1, "#27507F");
+    gradient.addColorStop(0, "#58A8D8");
   } else {
-    gradient.addColorStop(1, &quot;#F8BA85&quot;);
-    gradient.addColorStop(0, &quot;#FFC28E&quot;);
+    gradient.addColorStop(1, "#F8BA85");
+    gradient.addColorStop(0, "#FFC28E");
   }
 
   // Draw sky
@@ -342,28 +342,28 @@ function drawBackgroundSky() {
   ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
   // Draw stars
-  if (settings.mode === &quot;dark&quot;) {
-    ctx.fillStyle = &quot;white&quot;;
-    state.stars.forEach(star => {
+  if (settings.mode === "dark") {
+    ctx.fillStyle = "white";
+    state.stars.forEach((star) => {
       ctx.fillRect(star.x, star.y, 1, 1);
     });
   }
 }
 
 function drawBackgroundMoon() {
-  if (settings.mode === &quot;dark&quot;) {
-    ctx.fillStyle = &quot;rgba(255, 255, 255, 0.6)&quot;;
+  if (settings.mode === "dark") {
+    ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
     ctx.beginPath();
     ctx.arc(
-    window.innerWidth / state.scale - state.shift - 200,
-    window.innerHeight / state.scale - 100,
-    30,
-    0,
-    2 * Math.PI);
-
+      window.innerWidth / state.scale - state.shift - 200,
+      window.innerHeight / state.scale - 100,
+      30,
+      0,
+      2 * Math.PI
+    );
     ctx.fill();
   } else {
-    ctx.fillStyle = &quot;rgba(255, 255, 255, 0.6)&quot;;
+    ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
     ctx.beginPath();
     ctx.arc(300, 350, 60, 0, 2 * Math.PI);
     ctx.fill();
@@ -371,8 +371,8 @@ function drawBackgroundMoon() {
 }
 
 function drawBackgroundBuildings() {
-  state.backgroundBuildings.forEach(building => {
-    ctx.fillStyle = settings.mode === &quot;dark&quot; ? &quot;#254D7E&quot; : &quot;#947285&quot;;
+  state.backgroundBuildings.forEach((building) => {
+    ctx.fillStyle = settings.mode === "dark" ? "#254D7E" : "#947285";
     ctx.fillRect(building.x, 0, building.width, building.height);
   });
 }
@@ -380,16 +380,16 @@ function drawBackgroundBuildings() {
 function drawBuildingsWithBlastHoles() {
   ctx.save();
 
-  state.blastHoles.forEach(blastHole => {
+  state.blastHoles.forEach((blastHole) => {
     ctx.beginPath();
 
     // Outer shape clockwise
     ctx.rect(
-    0,
-    0,
-    window.innerWidth / state.scale,
-    window.innerHeight / state.scale);
-
+      0,
+      0,
+      window.innerWidth / state.scale,
+      window.innerHeight / state.scale
+    );
 
     // Inner shape counterclockwise
     ctx.arc(blastHole.x, blastHole.y, blastHoleRadius, 0, 2 * Math.PI, true);
@@ -403,9 +403,9 @@ function drawBuildingsWithBlastHoles() {
 }
 
 function drawBuildings() {
-  state.buildings.forEach(building => {
+  state.buildings.forEach((building) => {
     // Draw building
-    ctx.fillStyle = settings.mode === &quot;dark&quot; ? &quot;#152A47&quot; : &quot;#4A3C68&quot;;
+    ctx.fillStyle = settings.mode === "dark" ? "#152A47" : "#4A3C68";
     ctx.fillRect(building.x, 0, building.width, building.height);
 
     // Draw windows
@@ -414,11 +414,11 @@ function drawBuildings() {
     const gap = 15;
 
     const numberOfFloors = Math.ceil(
-    (building.height - gap) / (windowHeight + gap));
-
+      (building.height - gap) / (windowHeight + gap)
+    );
     const numberOfRoomsPerFloor = Math.floor(
-    (building.width - gap) / (windowWidth + gap));
-
+      (building.width - gap) / (windowWidth + gap)
+    );
 
     for (let floor = 0; floor < numberOfFloors; floor++) {
       for (let room = 0; room < numberOfRoomsPerFloor; room++) {
@@ -431,7 +431,7 @@ function drawBuildings() {
           const x = room * (windowWidth + gap);
           const y = floor * (windowHeight + gap);
 
-          ctx.fillStyle = settings.mode === &quot;dark&quot; ? &quot;#5F76AB&quot; : &quot;#EBB6A2&quot;;
+          ctx.fillStyle = settings.mode === "dark" ? "#5F76AB" : "#EBB6A2";
           ctx.fillRect(x, y, windowWidth, windowHeight);
 
           ctx.restore();
@@ -445,9 +445,9 @@ function drawGorilla(player) {
   ctx.save();
 
   const building =
-  player === 1 ?
-  state.buildings.at(1) // Second building
-  : state.buildings.at(-2); // Second last building
+    player === 1
+      ? state.buildings.at(1) // Second building
+      : state.buildings.at(-2); // Second last building
 
   ctx.translate(building.x + building.width / 2, building.height);
 
@@ -461,7 +461,7 @@ function drawGorilla(player) {
 }
 
 function drawGorillaBody() {
-  ctx.fillStyle = &quot;black&quot;;
+  ctx.fillStyle = "black";
 
   ctx.beginPath();
   ctx.moveTo(0, 15);
@@ -482,20 +482,20 @@ function drawGorillaBody() {
 }
 
 function drawGorillaLeftArm(player) {
-  ctx.strokeStyle = &quot;black&quot;;
+  ctx.strokeStyle = "black";
   ctx.lineWidth = 18;
 
   ctx.beginPath();
   ctx.moveTo(-14, 50);
 
-  if (state.phase === &quot;aiming&quot; &amp;&amp; state.currentPlayer === 1 &amp;&amp; player === 1) {
+  if (state.phase === "aiming" && state.currentPlayer === 1 && player === 1) {
     ctx.quadraticCurveTo(
-    -44,
-    63,
-    -28 - state.bomb.velocity.x / 6.25,
-    107 - state.bomb.velocity.y / 6.25);
-
-  } else if (state.phase === &quot;celebrating&quot; &amp;&amp; state.currentPlayer === player) {
+      -44,
+      63,
+      -28 - state.bomb.velocity.x / 6.25,
+      107 - state.bomb.velocity.y / 6.25
+    );
+  } else if (state.phase === "celebrating" && state.currentPlayer === player) {
     ctx.quadraticCurveTo(-44, 63, -28, 107);
   } else {
     ctx.quadraticCurveTo(-44, 45, -28, 12);
@@ -505,20 +505,20 @@ function drawGorillaLeftArm(player) {
 }
 
 function drawGorillaRightArm(player) {
-  ctx.strokeStyle = &quot;black&quot;;
+  ctx.strokeStyle = "black";
   ctx.lineWidth = 18;
 
   ctx.beginPath();
   ctx.moveTo(+14, 50);
 
-  if (state.phase === &quot;aiming&quot; &amp;&amp; state.currentPlayer === 2 &amp;&amp; player === 2) {
+  if (state.phase === "aiming" && state.currentPlayer === 2 && player === 2) {
     ctx.quadraticCurveTo(
-    +44,
-    63,
-    +28 - state.bomb.velocity.x / 6.25,
-    107 - state.bomb.velocity.y / 6.25);
-
-  } else if (state.phase === &quot;celebrating&quot; &amp;&amp; state.currentPlayer === player) {
+      +44,
+      63,
+      +28 - state.bomb.velocity.x / 6.25,
+      107 - state.bomb.velocity.y / 6.25
+    );
+  } else if (state.phase === "celebrating" && state.currentPlayer === player) {
     ctx.quadraticCurveTo(+44, 63, +28, 107);
   } else {
     ctx.quadraticCurveTo(+44, 45, +28, 12);
@@ -529,7 +529,7 @@ function drawGorillaRightArm(player) {
 
 function drawGorillaFace(player) {
   // Face
-  ctx.fillStyle = settings.mode === &quot;dark&quot; ? &quot;gray&quot; : &quot;lightgray&quot;;
+  ctx.fillStyle = settings.mode === "dark" ? "gray" : "lightgray";
   ctx.beginPath();
   ctx.arc(0, 63, 9, 0, 2 * Math.PI);
   ctx.moveTo(-3.5, 70);
@@ -539,14 +539,14 @@ function drawGorillaFace(player) {
   ctx.fill();
 
   // Eyes
-  ctx.fillStyle = &quot;black&quot;;
+  ctx.fillStyle = "black";
   ctx.beginPath();
   ctx.arc(-3.5, 70, 1.4, 0, 2 * Math.PI);
   ctx.moveTo(+3.5, 70);
   ctx.arc(+3.5, 70, 1.4, 0, 2 * Math.PI);
   ctx.fill();
 
-  ctx.strokeStyle = &quot;black&quot;;
+  ctx.strokeStyle = "black";
   ctx.lineWidth = 1.4;
 
   // Nose
@@ -559,7 +559,7 @@ function drawGorillaFace(player) {
 
   // Mouth
   ctx.beginPath();
-  if (state.phase === &quot;celebrating&quot; &amp;&amp; state.currentPlayer === player) {
+  if (state.phase === "celebrating" && state.currentPlayer === player) {
     ctx.moveTo(-5, 60);
     ctx.quadraticCurveTo(0, 56, 5, 60);
   } else {
@@ -570,30 +570,30 @@ function drawGorillaFace(player) {
 }
 
 function drawGorillaThoughtBubbles(player) {
-  if (state.phase === &quot;aiming&quot;) {
+  if (state.phase === "aiming") {
     const currentPlayerIsComputer =
-    settings.numberOfPlayers === 0 &amp;&amp;
-    state.currentPlayer === 1 &amp;&amp;
-    player === 1 ||
-    settings.numberOfPlayers !== 2 &amp;&amp;
-    state.currentPlayer === 2 &amp;&amp;
-    player === 2;
+      (settings.numberOfPlayers === 0 &&
+        state.currentPlayer === 1 &&
+        player === 1) ||
+      (settings.numberOfPlayers !== 2 &&
+        state.currentPlayer === 2 &&
+        player === 2);
 
     if (currentPlayerIsComputer) {
       ctx.save();
       ctx.scale(1, -1);
 
-      ctx.font = &quot;20px sans-serif&quot;;
-      ctx.textAlign = &quot;center&quot;;
-      ctx.fillText(&quot;?&quot;, 0, -90);
+      ctx.font = "20px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("?", 0, -90);
 
-      ctx.font = &quot;10px sans-serif&quot;;
+      ctx.font = "10px sans-serif";
 
-      ctx.rotate(5 / 180 * Math.PI);
-      ctx.fillText(&quot;?&quot;, 0, -90);
+      ctx.rotate((5 / 180) * Math.PI);
+      ctx.fillText("?", 0, -90);
 
-      ctx.rotate(-10 / 180 * Math.PI);
-      ctx.fillText(&quot;?&quot;, 0, -90);
+      ctx.rotate((-10 / 180) * Math.PI);
+      ctx.fillText("?", 0, -90);
 
       ctx.restore();
     }
@@ -604,12 +604,12 @@ function drawBomb() {
   ctx.save();
   ctx.translate(state.bomb.x, state.bomb.y);
 
-  if (state.phase === &quot;aiming&quot;) {
+  if (state.phase === "aiming") {
     // Move the bomb with the mouse while aiming
     ctx.translate(-state.bomb.velocity.x / 6.25, -state.bomb.velocity.y / 6.25);
 
     // Draw throwing trajectory
-    ctx.strokeStyle = &quot;rgba(255, 255, 255, 0.7)&quot;;
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.7)";
     ctx.setLineDash([3, 8]);
     ctx.lineWidth = 3;
     ctx.beginPath();
@@ -618,13 +618,13 @@ function drawBomb() {
     ctx.stroke();
 
     // Draw circle
-    ctx.fillStyle = &quot;white&quot;;
+    ctx.fillStyle = "white";
     ctx.beginPath();
     ctx.arc(0, 0, 6, 0, 2 * Math.PI);
     ctx.fill();
-  } else if (state.phase === &quot;in flight&quot;) {
+  } else if (state.phase === "in flight") {
     // Draw rotated banana
-    ctx.fillStyle = &quot;white&quot;;
+    ctx.fillStyle = "white";
     ctx.rotate(state.bomb.rotation);
     ctx.beginPath();
     ctx.moveTo(-8, -2);
@@ -633,7 +633,7 @@ function drawBomb() {
     ctx.fill();
   } else {
     // Draw circle
-    ctx.fillStyle = &quot;white&quot;;
+    ctx.fillStyle = "white";
     ctx.beginPath();
     ctx.arc(0, 0, 6, 0, 2 * Math.PI);
     ctx.fill();
@@ -645,7 +645,7 @@ function drawBomb() {
   // Indicator showing if the bomb is above the screen
   if (state.bomb.y > window.innerHeight / state.scale) {
     ctx.beginPath();
-    ctx.strokeStyle = &quot;white&quot;;
+    ctx.strokeStyle = "white";
     const distance = state.bomb.y - window.innerHeight / state.scale;
     ctx.moveTo(state.bomb.x, window.innerHeight / state.scale - 10);
     ctx.lineTo(state.bomb.x, window.innerHeight / state.scale - distance);
@@ -659,7 +659,7 @@ function drawBomb() {
   // Indicator showing the starting position of the bomb
   if (state.bomb.highlight) {
     ctx.beginPath();
-    ctx.strokeStyle = &quot;white&quot;;
+    ctx.strokeStyle = "white";
     ctx.lineWidth = 2;
     ctx.moveTo(state.bomb.x, state.bomb.y + 20);
     ctx.lineTo(state.bomb.x, state.bomb.y + 120);
@@ -672,17 +672,17 @@ function drawBomb() {
 }
 
 // Event handlers
-bombGrabAreaDOM.addEventListener(&quot;mousedown&quot;, function (e) {
+bombGrabAreaDOM.addEventListener("mousedown", function (e) {
   hideInstructions();
-  if (state.phase === &quot;aiming&quot;) {
+  if (state.phase === "aiming") {
     isDragging = true;
     dragStartX = e.clientX;
     dragStartY = e.clientY;
-    document.body.style.cursor = &quot;grabbing&quot;;
+    document.body.style.cursor = "grabbing";
   }
 });
 
-window.addEventListener(&quot;mousemove&quot;, function (e) {
+window.addEventListener("mousemove", function (e) {
   if (isDragging) {
     let deltaX = e.clientX - dragStartX;
     let deltaY = e.clientY - dragStartY;
@@ -699,7 +699,7 @@ window.addEventListener(&quot;mousemove&quot;, function (e) {
 function setInfo(deltaX, deltaY) {
   const hypotenuse = Math.sqrt(deltaX ** 2 + deltaY ** 2);
   const angleInRadians = Math.asin(deltaY / hypotenuse);
-  const angleInDegrees = angleInRadians / Math.PI * 180;
+  const angleInDegrees = (angleInRadians / Math.PI) * 180;
 
   if (state.currentPlayer === 1) {
     angle1DOM.innerText = Math.round(angleInDegrees);
@@ -710,10 +710,10 @@ function setInfo(deltaX, deltaY) {
   }
 }
 
-window.addEventListener(&quot;mouseup&quot;, function () {
+window.addEventListener("mouseup", function () {
   if (isDragging) {
     isDragging = false;
-    document.body.style.cursor = &quot;default&quot;;
+    document.body.style.cursor = "default";
 
     throwBomb();
   }
@@ -740,22 +740,22 @@ function runSimulations(numberOfSimulations) {
   let bestThrow = {
     velocityX: undefined,
     velocityY: undefined,
-    distance: Infinity };
-
+    distance: Infinity,
+  };
   simulationMode = true;
 
   // Calculating the center position of the enemy
   const enemyBuilding =
-  state.currentPlayer === 1 ?
-  state.buildings.at(-2) // Second last building
-  : state.buildings.at(1); // Second building
+    state.currentPlayer === 1
+      ? state.buildings.at(-2) // Second last building
+      : state.buildings.at(1); // Second building
   const enemyX = enemyBuilding.x + enemyBuilding.width / 2;
   const enemyY = enemyBuilding.height + 30;
 
   for (let i = 0; i < numberOfSimulations; i++) {
     // Pick a random angle and velocity
     const angleInDegrees = -10 + Math.random() * 100;
-    const angleInRadians = angleInDegrees / 180 * Math.PI;
+    const angleInRadians = (angleInDegrees / 180) * Math.PI;
     const velocity = 40 + Math.random() * 130;
 
     // Calculate the horizontal and vertical velocity
@@ -771,8 +771,8 @@ function runSimulations(numberOfSimulations) {
 
     // Calculating the distance between the simulated impact and the enemy
     const distance = Math.sqrt(
-    (enemyX - simulationImpact.x) ** 2 + (enemyY - simulationImpact.y) ** 2);
-
+      (enemyX - simulationImpact.x) ** 2 + (enemyY - simulationImpact.y) ** 2
+    );
 
     // If the current impact is closer to the enemy
     // than any of the previous simulations then pick this one
@@ -790,7 +790,7 @@ function throwBomb() {
     previousAnimationTimestamp = 0;
     animate(16);
   } else {
-    state.phase = &quot;in flight&quot;;
+    state.phase = "in flight";
     previousAnimationTimestamp = undefined;
     animationFrameRequestID = requestAnimationFrame(animate);
   }
@@ -814,7 +814,7 @@ function animate(timestamp) {
     const miss = checkFrameHit() || checkBuildingHit(); // Bomb got off-screen or hit a building
     const hit = checkGorillaHit(); // Bomb hit the enemy
 
-    if (simulationMode &amp;&amp; (hit || miss)) {
+    if (simulationMode && (hit || miss)) {
       simulationImpact = { x: state.bomb.x, y: state.bomb.y };
       return; // Simulation ended, return from the loop
     }
@@ -823,14 +823,14 @@ function animate(timestamp) {
     if (miss) {
       state.currentPlayer = state.currentPlayer === 1 ? 2 : 1; // Switch players
       if (state.currentPlayer === 1) state.round++;
-      state.phase = &quot;aiming&quot;;
+      state.phase = "aiming";
       initializeBombPosition();
 
       draw();
 
       const computerThrowsNext =
-      settings.numberOfPlayers === 0 ||
-      settings.numberOfPlayers === 1 &amp;&amp; state.currentPlayer === 2;
+        settings.numberOfPlayers === 0 ||
+        (settings.numberOfPlayers === 1 && state.currentPlayer === 2);
 
       if (computerThrowsNext) setTimeout(computerThrow, 50);
 
@@ -839,7 +839,7 @@ function animate(timestamp) {
 
     // Handle the case when we hit the enemy
     if (hit) {
-      state.phase = &quot;celebrating&quot;;
+      state.phase = "celebrating";
       announceWinner();
 
       draw();
@@ -879,10 +879,10 @@ function moveBomb(elapsedTime) {
 function checkFrameHit() {
   // Stop throw animation once the bomb gets out of the left, bottom, or right edge of the screen
   if (
-  state.bomb.y < 0 ||
-  state.bomb.x < -state.shift / state.scale ||
-  state.bomb.x > (window.innerWidth - state.shift) / state.scale)
-  {
+    state.bomb.y < 0 ||
+    state.bomb.x < -state.shift / state.scale ||
+    state.bomb.x > (window.innerWidth - state.shift) / state.scale
+  ) {
     return true; // The bomb is off-screen
   }
 }
@@ -891,10 +891,10 @@ function checkBuildingHit() {
   for (let i = 0; i < state.buildings.length; i++) {
     const building = state.buildings[i];
     if (
-    state.bomb.x + 4 > building.x &amp;&amp;
-    state.bomb.x - 4 < building.x + building.width &amp;&amp;
-    state.bomb.y - 4 < 0 + building.height)
-    {
+      state.bomb.x + 4 > building.x &&
+      state.bomb.x - 4 < building.x + building.width &&
+      state.bomb.y - 4 < 0 + building.height
+    ) {
       // Check if the bomb is inside the blast hole of a previous impact
       for (let j = 0; j < state.blastHoles.length; j++) {
         const blastHole = state.blastHoles[j];
@@ -903,8 +903,8 @@ function checkBuildingHit() {
         const horizontalDistance = state.bomb.x - blastHole.x;
         const verticalDistance = state.bomb.y - blastHole.y;
         const distance = Math.sqrt(
-        horizontalDistance ** 2 + verticalDistance ** 2);
-
+          horizontalDistance ** 2 + verticalDistance ** 2
+        );
         if (distance < blastHoleRadius) {
           // The bomb is inside of the rectangle of a building,
           // but a previous bomb already blew off this part of the building
@@ -923,16 +923,16 @@ function checkBuildingHit() {
 function checkGorillaHit() {
   const enemyPlayer = state.currentPlayer === 1 ? 2 : 1;
   const enemyBuilding =
-  enemyPlayer === 1 ?
-  state.buildings.at(1) // Second building
-  : state.buildings.at(-2); // Second last building
+    enemyPlayer === 1
+      ? state.buildings.at(1) // Second building
+      : state.buildings.at(-2); // Second last building
 
   ctx.save();
 
   ctx.translate(
-  enemyBuilding.x + enemyBuilding.width / 2,
-  enemyBuilding.height);
-
+    enemyBuilding.x + enemyBuilding.width / 2,
+    enemyBuilding.height
+  );
 
   drawGorillaBody();
   let hit = ctx.isPointInPath(state.bomb.x, state.bomb.y);
@@ -951,9 +951,9 @@ function checkGorillaHit() {
 function announceWinner() {
   if (settings.numberOfPlayers === 0) {
     winnerDOM.innerText = `Computer ${state.currentPlayer}`;
-  } else if (settings.numberOfPlayers === 1 &amp;&amp; state.currentPlayer === 1) {
+  } else if (settings.numberOfPlayers === 1 && state.currentPlayer === 1) {
     winnerDOM.innerText = `You`;
-  } else if (settings.numberOfPlayers === 1 &amp;&amp; state.currentPlayer === 2) {
+  } else if (settings.numberOfPlayers === 1 && state.currentPlayer === 2) {
     winnerDOM.innerText = `Computer`;
   } else {
     winnerDOM.innerText = `Player ${state.currentPlayer}`;
@@ -962,36 +962,36 @@ function announceWinner() {
 }
 
 singlePlayerButtonDOM.forEach((button) =>
-button.addEventListener(&quot;click&quot;, () => {
-  settings.numberOfPlayers = 1;
-  gameModeDOM.innerHTML = &quot;Player vs. Computer&quot;;
-  name1DOM.innerText = &quot;Player&quot;;
-  name2DOM.innerText = &quot;Computer&quot;;
+  button.addEventListener("click", () => {
+    settings.numberOfPlayers = 1;
+    gameModeDOM.innerHTML = "Player vs. Computer";
+    name1DOM.innerText = "Player";
+    name2DOM.innerText = "Computer";
 
-  newGame();
-}));
-
+    newGame();
+  })
+);
 
 twoPlayersButtonDOM.forEach((button) =>
-button.addEventListener(&quot;click&quot;, () => {
-  settings.numberOfPlayers = 2;
-  gameModeDOM.innerHTML = &quot;Player vs. Player&quot;;
-  name1DOM.innerText = &quot;Player 1&quot;;
-  name2DOM.innerText = &quot;Player 2&quot;;
+  button.addEventListener("click", () => {
+    settings.numberOfPlayers = 2;
+    gameModeDOM.innerHTML = "Player vs. Player";
+    name1DOM.innerText = "Player 1";
+    name2DOM.innerText = "Player 2";
 
-  newGame();
-}));
-
+    newGame();
+  })
+);
 
 autoPlayButtonDOM.forEach((button) =>
-button.addEventListener(&quot;click&quot;, () => {
-  settings.numberOfPlayers = 0;
-  name1DOM.innerText = &quot;Computer 1&quot;;
-  name2DOM.innerText = &quot;Computer 2&quot;;
+  button.addEventListener("click", () => {
+    settings.numberOfPlayers = 0;
+    name1DOM.innerText = "Computer 1";
+    name2DOM.innerText = "Computer 2";
 
-  newGame();
-}));
-
+    newGame();
+  })
+);
 
 function generateWindSpeed() {
   // Generate a random number between -10 and +10
@@ -1001,13 +1001,13 @@ function generateWindSpeed() {
 function setWindMillRotation() {
   const rotationSpeed = Math.abs(50 / state.windSpeed);
   windmillHeadDOM.style.animationDirection =
-  state.windSpeed > 0 ? &quot;normal&quot; : &quot;reverse&quot;;
+    state.windSpeed > 0 ? "normal" : "reverse";
   windmillHeadDOM.style.animationDuration = `${rotationSpeed}s`;
 
   windSpeedDOM.innerText = Math.round(state.windSpeed);
 }
 
-window.addEventListener(&quot;mousemove&quot;, function (e) {
+window.addEventListener("mousemove", function (e) {
   settingsDOM.style.opacity = 1;
   info1DOM.style.opacity = 1;
   info2DOM.style.opacity = 1;

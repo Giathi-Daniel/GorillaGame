@@ -1,9 +1,9 @@
-@import url(&quot;https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&amp;display=swap&quot;);
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap");
 
 body {
   margin: 0;
   padding: 0;
-  font-family: '&quot;Inconsolata&quot;, monospace';
+  font-family: "Inconsolata", monospace;
   font-size: 14px;
   color: white;
   user-select: none;
@@ -21,7 +21,7 @@ button {
   border: none;
   color: white;
   background: transparent;
-  font-family: '&quot;Inconsolata&quot;, monospace';
+  font-family: "Inconsolata", monospace;
   padding: 10px;
   font-size: 1em;
 }
@@ -119,7 +119,7 @@ button:hover {
 }
 
 .dropbtn:after {
-  content: '&quot;▼&quot;';
+  content: "▼";
   margin-inline-start: 7px;
   font-size: 0.8em;
   vertical-align: text-top;
@@ -200,7 +200,7 @@ button:hover {
 }
 
 #youtube::before {
-  content: '&quot';
+  content: "";
   display: block;
   position: absolute;
   inset-block-start: 7.5%;
@@ -212,7 +212,7 @@ button:hover {
 }
 
 #youtube::after {
-  content: '&quot&quot';
+  content: "";
   display: block;
   position: absolute;
   inset-block-start: 6px;
